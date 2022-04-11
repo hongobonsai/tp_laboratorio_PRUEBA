@@ -12,6 +12,6 @@
 #include <stdlib.h>
 
 int main(void) {
-	puts("!!!Hello dhfdhWsfasdfgadforldasdasd!!!"); /* prints !!!Hello World!!! */
+	puts("Probando workspace"); /* prints !!!Hello World!!! */
 	return EXIT_SUCCESS;
 }
