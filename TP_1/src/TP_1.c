@@ -37,10 +37,12 @@ Para ello el programa iniciará y contará con un menú de opciones:
 #include <stdio.h>
 #include <stdlib.h>
 
+int utn_funcionRealiceDescuento(float numero, float porcentajeDescuento, float *numeroConDescuento);
+
 int main(void) {
 	setbuf(stdout, NULL);
 	//1.
-	float kilometrosIngresados;
+	float kilometrosIngresados = 0;
 	//2.
 	float precioVueloAerolineas;
 	float precioVueloLatam;
@@ -51,10 +53,14 @@ int main(void) {
 	float precioTarjetaCreditoLatam;
 	float precioBitcoinAerolineas;
 	float precioBitcoinLatam;
-	float precioUnitarioAerolineas;
-	float precioUnitarioLatam;
+	float precioPorKmAerolineas;
+	float precioPorKmLatam;
 
 	float diferenciaLatamAerolineas;
+
+	int flagIngresoKilometros = 0;
+	int flagIngresoPrecioAerolineas = 0;
+	int flagIngresoPrecioLatam = 0;
 
 
 
@@ -62,9 +68,10 @@ int main(void) {
 	int opcionMenuPrincipal;
 	char opcionSubMenuPrecios;
 	do{
-		printf("1. Ingresar Kilómetros: \n\n");
+		printf("1. Ingresar Kilómetros: (km= %.2f)\n\n", kilometrosIngresados);
 
-		printf("2. Ingresar Precio de Vuelos: \n\n");
+		printf("2. Ingresar Precio de Vuelos: (Aerolíneas=$%.2f, Latam=$%.2f) \n\n",
+				precioVueloAerolineas, precioVueloLatam);
 
 		printf("3. Calcular todos los costos: \n"
 				"   a) Tarjeta de débito\n"
@@ -81,20 +88,15 @@ int main(void) {
 		//COMIENZO DE CADA ITEM DEL MENÚ
 		switch(opcionMenuPrincipal){
 
-
 		case 1:
 			do{
 			printf("\n Por Favor, Ingrese kilómetros: \n\n");
 			scanf("%f", &kilometrosIngresados);
 			} while (kilometrosIngresados <= 0);
 			break;
-
-
 		case 2:
-
 			do {
 				do {
-
 					fflush(stdin);
 					printf(
 							"Oprima 'a' para ingresar el precio de vuelo para Aerolineas.\n"
@@ -112,16 +114,61 @@ int main(void) {
 						&& opcionSubMenuPrecios != 'c');
 
 				if (opcionSubMenuPrecios == 'a') {
+					do{
 					printf("Ingrese el precio de vuelo para Aerolineas: \n");
 					scanf("%f", &precioVueloAerolineas);
+						if (precioVueloAerolineas <= 0){
+							printf("¡INGRESE UNA OPCIÓN VÁLIDA!\n\n");
+						}
+					} while (precioVueloAerolineas <= 0);
 				} else if (opcionSubMenuPrecios == 'b') {
+					do{
 					printf("Ingrese el precio de vuelo para Latam: \n");
 					scanf("%f", &precioVueloLatam);
+					if (precioVueloLatam <= 0){
+							printf("¡INGRESE UNA OPCIÓN VÁLIDA!\n\n");
+											}
+					} while (precioVueloLatam <= 0);
 				}
 			} while(opcionSubMenuPrecios != 'c');
 			break;
 
+			/*
+			3. Calcular todos los costos:
+			 a) Tarjeta de débito (descuento 10%)
+			 b) Tarjeta de crédito (interés 25%)
+			 c) Bitcoin (1BTC -> 4606954.55 Pesos Argentinos)
+			 d) Mostrar precio por km (precio unitario)
+			 e) Mostrar diferencia de precio ingresada (Latam - Aerolíneas)
+			 ============================================================================
+			float precioTarjetaDebitoAerolineas;
+			float precioTarjetaDebitoLatam;
+			float precioTarjetaCreditoAerolineas;
+			float precioTarjetaCreditoLatam;
+			float precioBitcoinAerolineas;
+			float precioBitcoinLatam;
+			float precioPorKmAerolineas;
+			float precioPorKmLatam;
+
+			float diferenciaLatamAerolineas;
+
+			 */
+
+
 		case 3:
+
+			utn_funcionRealiceDescuento(precioVueloAerolineas, 0.10, &precioTarjetaDebitoAerolineas);
+
+/*control*/		printf("%fPrecio tarjeta debito aerolineas: \n", precioTarjetaDebitoAerolineas);
+
+			utn_funcionRealiceDescuento(precioVueloLatam, 0.10, &precioTarjetaDebitoLatam);
+
+/*control*/		printf("%fPrecio tarjeta debito latam: \n", precioTarjetaDebitoLatam);
+
+
+
+
+
 			break;
 		case 4:
 			do {
@@ -162,6 +209,18 @@ int main(void) {
 
 	return EXIT_SUCCESS;
 }
+
+int utn_funcionRealiceDescuento(float numero, float porcentajeDescuento, float *numeroConDescuento) {
+	float valorDescuento;
+	valorDescuento = numero * porcentajeDescuento;
+	*numeroConDescuento = numero - valorDescuento;
+
+	return 0;
+}
+
+
+
+
 /*
 "   Latam: \n"
 				"   a) Precio con tarjeta de débito: \n"
