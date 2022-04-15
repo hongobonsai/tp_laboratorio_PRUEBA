@@ -35,12 +35,13 @@ int main(void) {
 	int opcionSubMenuInformar;
 	int opcionSubMenuPrecios;
 
-	int flagUltimoBitcoinAerolineasCalculado;
-	float ultimoBitcoinAerolineasCalculado;
+	float ultimoKmCalculado = 0;
+	float ultimoPrecioAerolineasCalculado = 0;
+	float ultimoPrecioLatamCalculado = 0;
 
 	do {
 		printf(
-				"\n**********************************************************************"
+				"\n******************************************************************************"
 						"\n1. Ingresar Kilómetros: (km= %.2f)\n\n",
 				kilometrosIngresados);
 
@@ -58,7 +59,7 @@ int main(void) {
 		printf("4. Informar Resultados\n");
 		printf("5. Carga forzada de datos \n");
 		printf(
-				"6. Salir \n**********************************************************************\n");
+				"6. Salir \n******************************************************************************\n");
 
 		scanf("%d", &opcionMenuPrincipal);
 
@@ -87,7 +88,9 @@ int main(void) {
 					scanf("%d", &opcionSubMenuPrecios);
 					if (opcionSubMenuPrecios != 1 && opcionSubMenuPrecios != 2
 							&& opcionSubMenuPrecios != 0) {
-						printf("\n¡INGRESE UNA OPCIÓN VÁLIDA!\n");
+						printf("\nXXXXXXXXXXXXXXXXXXXXXXXXXXX\n"
+								"¡INGRESE UNA OPCIÓN VÁLIDA!\n"
+								"XXXXXXXXXXXXXXXXXXXXXXXXXXX\n");
 					}
 				} while (opcionSubMenuPrecios != 1 && opcionSubMenuPrecios != 2
 						&& opcionSubMenuPrecios != 0);
@@ -102,7 +105,9 @@ int main(void) {
 							flagIngresoPrecioAerolineasDos = 1;
 						}
 						if (precioVueloAerolineas <= 0) {
-							printf("\n¡INGRESE UNA OPCIÓN VÁLIDA!\n");
+							printf("\nXXXXXXXXXXXXXXXXXXXXXXXXXXX\n"
+									"¡INGRESE UNA OPCIÓN VÁLIDA!\n"
+									"XXXXXXXXXXXXXXXXXXXXXXXXXXX\n");
 						}
 					} while (precioVueloAerolineas <= 0);
 				} else if (opcionSubMenuPrecios == 2) {
@@ -114,7 +119,9 @@ int main(void) {
 							flagIngresoPrecioLatamDos = 1;
 						}
 						if (precioVueloLatam <= 0) {
-							printf("\n¡INGRESE UNA OPCIÓN VÁLIDA!\n");
+							printf("\nXXXXXXXXXXXXXXXXXXXXXXXXXXX\n"
+									"¡INGRESE UNA OPCIÓN VÁLIDA!\n"
+									"XXXXXXXXXXXXXXXXXXXXXXXXXXX\n");
 						}
 					} while (precioVueloLatam <= 0);
 				}
@@ -122,6 +129,9 @@ int main(void) {
 			break;
 
 		case 3:
+			ultimoKmCalculado = kilometrosIngresados;
+			ultimoPrecioAerolineasCalculado = precioVueloAerolineas;
+			ultimoPrecioLatamCalculado =  precioVueloLatam;
 
 			utn_RealizarDescuento(precioVueloAerolineas, 0.10,
 					&precioTarjetaDebitoAerolineas);
@@ -142,7 +152,6 @@ int main(void) {
 			utn_ObtenerDiferenciaEntreValores(precioVueloAerolineas,
 					precioVueloLatam, &diferenciaLatamAerolineas);
 
-			ultimoBitcoinAerolineasCalculado = precioBitcoinAerolineas;
 			break;
 
 		case 4:
@@ -176,8 +185,9 @@ int main(void) {
 							"Los últimos datos ingresados corresponden a la carga forzada, \n"
 									"por favor reingrese los Kilometros y Precios correspondientes.\n");
 				} else {
-					if (ultimoBitcoinAerolineasCalculado
-							!= precioBitcoinAerolineas) {
+					if (ultimoKmCalculado != kilometrosIngresados ||
+							ultimoPrecioAerolineasCalculado != precioVueloAerolineas ||
+							ultimoPrecioLatamCalculado !=  precioVueloLatam) {
 						printf(
 								"¡SE DEBEN CALCULAR LOS ÚLTIMOS DATOS INGRESADOS ANTES DE INFORMAR!\n");
 					} else {
