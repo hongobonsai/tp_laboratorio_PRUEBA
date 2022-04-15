@@ -37,7 +37,11 @@ Para ello el programa iniciará y contará con un menú de opciones:
 #include <stdio.h>
 #include <stdlib.h>
 
-int utn_funcionRealiceDescuento(float numero, float porcentajeDescuento, float *numeroConDescuento);
+int utn_RealizarDescuento(float numero, float porcentajeDescuento, float *numeroConDescuento);
+int utn_RealizarInteres(float numero, float porcentajeInteres, float *numeroConInteres);
+int utn_CalcularConversionValor(float valorInicial, float relacionConversion, float *valorConvertido);
+int utn_ValorPorUnidad(float cantidadUnidades, float valorTotal, float *valorPorUnidad);
+int utn_ObtenerDiferenciaEntreValores(float primerValor, float segundoValor, float *valorDiferencia);
 
 int main(void) {
 	setbuf(stdout, NULL);
@@ -66,11 +70,12 @@ int main(void) {
 
 
 	int opcionMenuPrincipal;
-	char opcionSubMenuPrecios;
+	int opcionSubMenuInformar;
+	int opcionSubMenuPrecios;
 	do{
-		printf("1. Ingresar Kilómetros: (km= %.2f)\n\n", kilometrosIngresados);
+		printf("\n1. Ingresar Kilómetros: (km= %.2f)\n\n", kilometrosIngresados);
 
-		printf("2. Ingresar Precio de Vuelos: (Aerolíneas=$%.2f, Latam=$%.2f) \n\n",
+		printf("2. Ingresar Precio de Vuelos: (Aerolíneas= $%.2f, Latam= $%.2f) \n\n",
 				precioVueloAerolineas, precioVueloLatam);
 
 		printf("3. Calcular todos los costos: \n"
@@ -90,113 +95,115 @@ int main(void) {
 
 		case 1:
 			do{
-			printf("\n Por Favor, Ingrese kilómetros: \n\n");
+			printf("\nPor Favor, Ingrese kilómetros: \n");
+			flagIngresoKilometros = 1;
 			scanf("%f", &kilometrosIngresados);
+
 			} while (kilometrosIngresados <= 0);
 			break;
 		case 2:
 			do {
 				do {
 					fflush(stdin);
-					printf(
-							"Oprima 'a' para ingresar el precio de vuelo para Aerolineas.\n"
-							"Oprima 'b' para ingresar el precio de vuelo para Latam.\n"
-							"Oprima 'c' para volver al menu principal.\n");
-					scanf("%c", &opcionSubMenuPrecios);
-					if (opcionSubMenuPrecios != 'a'
-						&& opcionSubMenuPrecios != 'b'
-						&& opcionSubMenuPrecios != 'c'){
+					printf("\nOprima '1' para ingresar el precio de vuelo para Aerolineas.\n"
+							"Oprima '2' para ingresar el precio de vuelo para Latam.\n"
+							"Oprima '0' para volver al menu principal.\n");
+					scanf("%d", &opcionSubMenuPrecios);
+					if (opcionSubMenuPrecios != 1
+						&& opcionSubMenuPrecios != 2
+						&& opcionSubMenuPrecios != 0){
 
-						printf("¡INGRESE UNA OPCIÓN VÁLIDA!\n\n");
+						printf("\n¡INGRESE UNA OPCIÓN VÁLIDA!\n");
 					}
-				} while (opcionSubMenuPrecios != 'a'
-						&& opcionSubMenuPrecios != 'b'
-						&& opcionSubMenuPrecios != 'c');
+				} while (opcionSubMenuPrecios != 1
+						&& opcionSubMenuPrecios != 2
+						&& opcionSubMenuPrecios != 0);
 
-				if (opcionSubMenuPrecios == 'a') {
+				if (opcionSubMenuPrecios == 1) {
 					do{
-					printf("Ingrese el precio de vuelo para Aerolineas: \n");
+					printf("\nIngrese el precio de vuelo para Aerolineas: \n");
 					scanf("%f", &precioVueloAerolineas);
+					flagIngresoPrecioAerolineas = 1;
 						if (precioVueloAerolineas <= 0){
-							printf("¡INGRESE UNA OPCIÓN VÁLIDA!\n\n");
+							printf("\n¡INGRESE UNA OPCIÓN VÁLIDA!\n");
 						}
 					} while (precioVueloAerolineas <= 0);
-				} else if (opcionSubMenuPrecios == 'b') {
+				} else if (opcionSubMenuPrecios == 2) {
 					do{
-					printf("Ingrese el precio de vuelo para Latam: \n");
+					printf("\nIngrese el precio de vuelo para Latam: \n");
 					scanf("%f", &precioVueloLatam);
+					flagIngresoPrecioLatam = 1;
 					if (precioVueloLatam <= 0){
-							printf("¡INGRESE UNA OPCIÓN VÁLIDA!\n\n");
+							printf("\n¡INGRESE UNA OPCIÓN VÁLIDA!\n");
 											}
 					} while (precioVueloLatam <= 0);
 				}
-			} while(opcionSubMenuPrecios != 'c');
+			} while(opcionSubMenuPrecios != 0);
 			break;
-
-			/*
-			3. Calcular todos los costos:
-			 a) Tarjeta de débito (descuento 10%)
-			 b) Tarjeta de crédito (interés 25%)
-			 c) Bitcoin (1BTC -> 4606954.55 Pesos Argentinos)
-			 d) Mostrar precio por km (precio unitario)
-			 e) Mostrar diferencia de precio ingresada (Latam - Aerolíneas)
-			 ============================================================================
-			float precioTarjetaDebitoAerolineas;
-			float precioTarjetaDebitoLatam;
-			float precioTarjetaCreditoAerolineas;
-			float precioTarjetaCreditoLatam;
-			float precioBitcoinAerolineas;
-			float precioBitcoinLatam;
-			float precioPorKmAerolineas;
-			float precioPorKmLatam;
-
-			float diferenciaLatamAerolineas;
-
-			 */
 
 
 		case 3:
 
-			utn_funcionRealiceDescuento(precioVueloAerolineas, 0.10, &precioTarjetaDebitoAerolineas);
-
-/*control*/		printf("%fPrecio tarjeta debito aerolineas: \n", precioTarjetaDebitoAerolineas);
-
-			utn_funcionRealiceDescuento(precioVueloLatam, 0.10, &precioTarjetaDebitoLatam);
-
-/*control*/		printf("%fPrecio tarjeta debito latam: \n", precioTarjetaDebitoLatam);
-
-
-
-
-
+			utn_RealizarDescuento(precioVueloAerolineas, 0.10, &precioTarjetaDebitoAerolineas);
+			utn_RealizarDescuento(precioVueloLatam, 0.10, &precioTarjetaDebitoLatam);
+			utn_RealizarInteres(precioVueloAerolineas,  0.25, &precioTarjetaCreditoAerolineas);
+			utn_RealizarInteres(precioVueloLatam,  0.25, &precioTarjetaCreditoLatam);
+			utn_CalcularConversionValor(precioVueloAerolineas, 4606954.55, &precioBitcoinAerolineas);
+			utn_CalcularConversionValor(precioVueloLatam, 4606954.55, &precioBitcoinLatam);
+			utn_ValorPorUnidad(kilometrosIngresados, precioVueloAerolineas, &precioPorKmAerolineas);
+			utn_ValorPorUnidad(kilometrosIngresados, precioVueloLatam, &precioPorKmLatam);
+			utn_ObtenerDiferenciaEntreValores(precioVueloAerolineas, precioVueloLatam, &diferenciaLatamAerolineas);
 			break;
 		case 4:
-			do {
 
-				fflush(stdin);
-				printf(
-						"   Latam: \n"
-						"   a) Precio con tarjeta de débito: \n"
-						"   b) Precio con tarjeta de crédito: \n"
-						"   c) Precio pagando con bitcoin: \n"
-						"   d) Precio unitario: \n\n"
-						"   Aerolíneas: \n"
-						"   a) Precio con tarjeta de débito: \n"
-						"   b) Precio con tarjeta de crédito: \n"
-						"   c) Precio pagando con bitcoin: \n"
-						"   d) Precio unitario: \n"
-						"   La diferencia de precio es: \n\n\n");
-				scanf("%c", &opcionSubMenuPrecios);
-			} while(opcionSubMenuPrecios != 'a'
-					&& opcionSubMenuPrecios != 'b'
-					&& opcionSubMenuPrecios != 'c');
-			break;
-		case 5:
-			break;
-		case 6:
-			break;
+			if (flagIngresoKilometros == 0 || flagIngresoPrecioAerolineas == 0 ||
+					flagIngresoPrecioLatam == 0){
+				do{
+					printf("\nNO SE INGRESARON LOS SIGUIENTES DATOS: \n\n");
+					if (flagIngresoKilometros == 0){
+						printf("-Kilometros totales. \n");
+					}
+					if (flagIngresoPrecioAerolineas == 0){
+						printf("-Precio del viaje por Aerolineas. \n");
+					}
+					if (flagIngresoPrecioLatam == 0){
+						printf("-Precio del viaje por Latam. \n\n");
+					}
+					printf("1. ACEPTAR");
+					scanf("%d", &opcionSubMenuInformar);
+				} while (opcionSubMenuInformar != 1);
+			}else {
+				do {
+
+					fflush(stdin);
+					printf(
+							"   \n\nPrecio Aerolineas: $%.2f\n"
+							"   a) Precio con tarjeta de débito: $%.2f\n"
+							"   b) Precio con tarjeta de crédito: $%.2f\n"
+							"   c) Precio pagando con bitcoin: %.8f BTC\n"
+							"   d) Precio unitario: $%.2f\n\n"
+							"   Precio Latam: $%.2f\n"
+							"   a) Precio con tarjeta de débito: $%.2f\n"
+							"   b) Precio con tarjeta de crédito: $%.2f\n"
+							"   c) Precio pagando con bitcoin: %.8f BTC\n"
+							"   d) Precio unitario: $%.2f\n\n"
+							"   La diferencia de precio es: $%.2f\n\n",
+							precioVueloAerolineas, precioTarjetaDebitoAerolineas,
+							precioTarjetaCreditoAerolineas, precioBitcoinAerolineas,
+							precioPorKmAerolineas, precioVueloLatam, precioTarjetaDebitoLatam,
+							precioTarjetaCreditoLatam, precioBitcoinLatam, precioPorKmLatam,
+							diferenciaLatamAerolineas);
+					printf("\n0. Volver al menú principal\n");
+					scanf("%d", &opcionSubMenuInformar);
+				} while(opcionSubMenuInformar != 0);
+				break;
+			case 5:
+				break;
+			case 6:
+				break;
 
 
+			}
 		}
 
 
@@ -210,7 +217,7 @@ int main(void) {
 	return EXIT_SUCCESS;
 }
 
-int utn_funcionRealiceDescuento(float numero, float porcentajeDescuento, float *numeroConDescuento) {
+int utn_RealizarDescuento(float numero, float porcentajeDescuento, float *numeroConDescuento) {
 	float valorDescuento;
 	valorDescuento = numero * porcentajeDescuento;
 	*numeroConDescuento = numero - valorDescuento;
@@ -218,8 +225,39 @@ int utn_funcionRealiceDescuento(float numero, float porcentajeDescuento, float *
 	return 0;
 }
 
+int utn_RealizarInteres(float numero, float porcentajeInteres, float *numeroConInteres) {
+	float valorInteres;
+	valorInteres = numero * porcentajeInteres;
+	*numeroConInteres = numero + valorInteres;
+
+	return 0;
+}
+
+int utn_CalcularConversionValor(float valorInicial, float relacionConversion, float *valorConvertido){
+
+	*valorConvertido = valorInicial / relacionConversion;
 
 
+	return 0;
+}
+
+int utn_ValorPorUnidad(float cantidadUnidades, float valorTotal, float *valorPorUnidad){
+
+	*valorPorUnidad = valorTotal / cantidadUnidades;
+
+	return 0;
+
+}
+
+int utn_ObtenerDiferenciaEntreValores(float primerValor, float segundoValor, float *valorDiferencia){
+
+	if (primerValor >= segundoValor){
+		*valorDiferencia = primerValor - segundoValor;
+	} else {
+		*valorDiferencia = segundoValor - primerValor;
+	}
+	return 0;
+}
 
 /*
 "   Latam: \n"
