@@ -29,7 +29,6 @@ int main(void) {
 	int flagIngresoKilometrosDos = 0;
 	int flagIngresoPrecioAerolineasDos = 0;
 	int flagIngresoPrecioLatamDos = 0;
-	//int flagPermitirInformarResultadosCorrectos = 0;
 
 	int opcionMenuPrincipal;
 	int opcionSubMenuInformar;
@@ -40,30 +39,9 @@ int main(void) {
 	float ultimoPrecioLatamCalculado = 0;
 
 	do {
-		printf(
-				"\n******************************************************************************"
-						"\n1. Ingresar Kilómetros: (km= %.2f)\n\n",
-				kilometrosIngresados);
-
-		printf(
-				"2. Ingresar Precio de Vuelos: (Aerolíneas= $%.2f, Latam= $%.2f) \n\n",
+		opcionMenuPrincipal = tp_Uno_MenuPrincipal(kilometrosIngresados,
 				precioVueloAerolineas, precioVueloLatam);
 
-		printf("3. Calcular todos los costos: \n"
-				"   a) Tarjeta de débito\n"
-				"   b) Tarjeta de crédito\n"
-				"   c) Bitcoin\n"
-				"   d) Mostrar precio por km\n"
-				"   e) Mostrar diferencia de precio ingresada\n\n");
-
-		printf("4. Informar Resultados\n");
-		printf("5. Carga forzada de datos \n");
-		printf(
-				"6. Salir \n******************************************************************************\n");
-
-		scanf("%d", &opcionMenuPrincipal);
-
-		//COMIENZO DE CADA ITEM DEL MENÚ
 		switch (opcionMenuPrincipal) {
 
 		case 1:
@@ -131,7 +109,9 @@ int main(void) {
 		case 3:
 			ultimoKmCalculado = kilometrosIngresados;
 			ultimoPrecioAerolineasCalculado = precioVueloAerolineas;
-			ultimoPrecioLatamCalculado =  precioVueloLatam;
+			ultimoPrecioLatamCalculado = precioVueloLatam;
+
+			realizar_calculos:
 
 			utn_RealizarDescuento(precioVueloAerolineas, 0.10,
 					&precioTarjetaDebitoAerolineas);
@@ -151,6 +131,10 @@ int main(void) {
 					&precioPorKmLatam);
 			utn_ObtenerDiferenciaEntreValores(precioVueloAerolineas,
 					precioVueloLatam, &diferenciaLatamAerolineas);
+
+			if (opcionMenuPrincipal == 5) {
+				goto imprimir_calculos;
+			}
 
 			break;
 
@@ -185,16 +169,16 @@ int main(void) {
 							"Los últimos datos ingresados corresponden a la carga forzada, \n"
 									"por favor reingrese los Kilometros y Precios correspondientes.\n");
 				} else {
-					if (ultimoKmCalculado != kilometrosIngresados ||
-							ultimoPrecioAerolineasCalculado != precioVueloAerolineas ||
-							ultimoPrecioLatamCalculado !=  precioVueloLatam) {
+					if (ultimoKmCalculado != kilometrosIngresados
+							|| ultimoPrecioAerolineasCalculado
+									!= precioVueloAerolineas
+							|| ultimoPrecioLatamCalculado != precioVueloLatam) {
 						printf(
 								"¡SE DEBEN CALCULAR LOS ÚLTIMOS DATOS INGRESADOS ANTES DE INFORMAR!\n");
 					} else {
 						do {
-
-							fflush(stdin);
-							tp_uno_PrintPreciosDelMenu(precioVueloAerolineas,
+							imprimir_calculos: fflush(stdin);
+							tp_Uno_PrintPreciosDelMenu(precioVueloAerolineas,
 									precioVueloLatam,
 									precioTarjetaDebitoAerolineas,
 									precioTarjetaDebitoLatam,
@@ -222,34 +206,7 @@ int main(void) {
 					utn_HardcodearTresFloat(7090, 162965, 159339,
 							&kilometrosIngresados, &precioVueloAerolineas,
 							&precioVueloLatam);
-					utn_RealizarDescuento(precioVueloAerolineas, 0.10,
-							&precioTarjetaDebitoAerolineas);
-					utn_RealizarDescuento(precioVueloLatam, 0.10,
-							&precioTarjetaDebitoLatam);
-					utn_RealizarInteres(precioVueloAerolineas, 0.25,
-							&precioTarjetaCreditoAerolineas);
-					utn_RealizarInteres(precioVueloLatam, 0.25,
-							&precioTarjetaCreditoLatam);
-					utn_CalcularConversionValor(precioVueloAerolineas,
-							4606954.55, &precioBitcoinAerolineas);
-					utn_CalcularConversionValor(precioVueloLatam, 4606954.55,
-							&precioBitcoinLatam);
-					utn_ValorPorUnidad(kilometrosIngresados,
-							precioVueloAerolineas, &precioPorKmAerolineas);
-					utn_ValorPorUnidad(kilometrosIngresados, precioVueloLatam,
-							&precioPorKmLatam);
-					utn_ObtenerDiferenciaEntreValores(precioVueloAerolineas,
-							precioVueloLatam, &diferenciaLatamAerolineas);
-
-					tp_uno_PrintPreciosDelMenu(precioVueloAerolineas,
-							precioVueloLatam, precioTarjetaDebitoAerolineas,
-							precioTarjetaDebitoLatam,
-							precioTarjetaCreditoAerolineas,
-							precioTarjetaCreditoLatam, precioBitcoinAerolineas,
-							precioBitcoinLatam, precioPorKmAerolineas,
-							precioPorKmLatam, diferenciaLatamAerolineas);
-					printf("PRESIONE 0 PARA CONTINUAR");
-					scanf("%d", &opcionSubMenuInformar);
+					goto realizar_calculos;
 				} while (opcionSubMenuInformar != 0);
 				break;
 				case 6:
@@ -257,10 +214,8 @@ int main(void) {
 						"|     ADIÓS, EJECUCIÓN DEL T.P.1 FINALIZADA.     |\n"
 						"|<><><><><><><><><><><><><><><><><><><><><><><><>|\n");
 				break;
-
 			}
 		}
-
 	} while (opcionMenuPrincipal != 6);
 	return EXIT_SUCCESS;
 }
