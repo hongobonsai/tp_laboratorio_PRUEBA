@@ -25,7 +25,8 @@ int main(void) {
 	int flagIngresoPrecioAerolineas = 0;
 	int flagIngresoPrecioLatam = 0;
 	int flagIngresoCargaForzada = 0;
-
+	/*las flag "Dos", son independientes de las anteriores. Permiten
+	controlar errores de la Carga Forzada y la opción 4.*/
 	int flagIngresoKilometrosDos = 0;
 	int flagIngresoPrecioAerolineasDos = 0;
 	int flagIngresoPrecioLatamDos = 0;
@@ -118,7 +119,7 @@ int main(void) {
 			utn_ObtenerDiferenciaEntreValores(precioVueloAerolineas, precioVueloLatam, &diferenciaLatamAerolineas);
 
 			if (opcionMenuPrincipal == 5) {
-				goto imprimir_calculos;
+				goto imprimir_calculos; //Jump hacia donde se imprimen los calculos.
 			}
 			break;
 		case 4:
@@ -152,13 +153,13 @@ int main(void) {
 							"por favor reingrese los Kilometros y Precios correspondientes.\n");
 				} else {
 					if (ultimoKmCalculado != kilometrosIngresados
-							|| ultimoPrecioAerolineasCalculado
-									!= precioVueloAerolineas
+							|| ultimoPrecioAerolineasCalculado != precioVueloAerolineas
 							|| ultimoPrecioLatamCalculado != precioVueloLatam) {
 						printf("¡SE DEBEN CALCULAR LOS ÚLTIMOS DATOS INGRESADOS ANTES DE INFORMAR!\n");
 					} else {
 						do {
-							imprimir_calculos: fflush(stdin);
+							imprimir_calculos:
+							fflush(stdin);
 							tp_Uno_PrintPreciosDelMenu(precioVueloAerolineas,
 									precioVueloLatam,
 									precioTarjetaDebitoAerolineas,
@@ -186,7 +187,7 @@ int main(void) {
 					utn_HardcodearTresFloat(7090, 162965, 159339,
 							&kilometrosIngresados, &precioVueloAerolineas,
 							&precioVueloLatam);
-					goto realizar_calculos;
+					goto realizar_calculos; //Jump hacia donde se realizan los calculos.
 				} while (opcionSubMenuInformar != 0);
 				break;
 				case 6:
