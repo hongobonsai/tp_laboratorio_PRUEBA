@@ -7,6 +7,11 @@
 
 #include "tp_1_library.h"
 
+/// @brief FUNCION PROPIA DEL TP, basicamente imprime todos los precios de la
+/// 		opción 4 mediante printf.
+/// @param Cada uno de los parametros recibe los valores ingresados en menús
+/// 		anteriores, y la función los envia al printf.
+/// @return Retorna 0 si finalizó la función.
 int tp_Uno_PrintPreciosDelMenu(float precioVueloAerolineas,
 		float precioVueloLatam, float precioTarjetaDebitoAerolineas,
 		float precioTarjetaDebitoLatam, float precioTarjetaCreditoAerolineas,
@@ -30,7 +35,11 @@ int tp_Uno_PrintPreciosDelMenu(float precioVueloAerolineas,
 			precioBitcoinLatam, precioPorKmLatam, diferenciaLatamAerolineas);
 	return 0;
 }
-
+/// @brief FUNCION PROPIA DEL TP, basicamente imprime la totalidad del menú principal,
+/// 		con los correspondientes valores ingresados
+/// @param Cada uno de los parametros recibe los valores ingresados en los menús que
+/// 		se encuentran dentro del menú principal, que son impresos por printf.
+/// @return Retorna 0 si finalizó la función.
 int tp_Uno_MenuPrincipal(float kilometrosIngresados, float precioVueloAerolineas, float precioVueloLatam){
 	int auxOpcionMenuPrincipal;
 	printf(

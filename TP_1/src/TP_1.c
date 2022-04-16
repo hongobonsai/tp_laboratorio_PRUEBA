@@ -43,7 +43,6 @@ int main(void) {
 				precioVueloAerolineas, precioVueloLatam);
 
 		switch (opcionMenuPrincipal) {
-
 		case 1:
 			do {
 				printf("\nPor Favor, Ingrese kilómetros: \n");
@@ -52,17 +51,15 @@ int main(void) {
 				if (flagIngresoCargaForzada == 1) {
 					flagIngresoKilometrosDos = 1;
 				}
-
 			} while (kilometrosIngresados <= 0);
 			break;
 		case 2:
 			do {
 				do {
 					fflush(stdin);
-					printf(
-							"\nOprima '1' para ingresar el precio de vuelo para Aerolineas.\n"
-									"Oprima '2' para ingresar el precio de vuelo para Latam.\n"
-									"Oprima '0' para volver al menu principal.\n");
+					printf("\nOprima '1' para ingresar el precio de vuelo para Aerolineas.\n"
+							"Oprima '2' para ingresar el precio de vuelo para Latam.\n"
+							"Oprima '0' para volver al menu principal.\n");
 					scanf("%d", &opcionSubMenuPrecios);
 					if (opcionSubMenuPrecios != 1 && opcionSubMenuPrecios != 2
 							&& opcionSubMenuPrecios != 0) {
@@ -72,11 +69,9 @@ int main(void) {
 					}
 				} while (opcionSubMenuPrecios != 1 && opcionSubMenuPrecios != 2
 						&& opcionSubMenuPrecios != 0);
-
 				if (opcionSubMenuPrecios == 1) {
 					do {
-						printf(
-								"\nIngrese el precio de vuelo para Aerolineas: \n");
+						printf("\nIngrese el precio de vuelo para Aerolineas: \n");
 						scanf("%f", &precioVueloAerolineas);
 						flagIngresoPrecioAerolineas = 1;
 						if (flagIngresoCargaForzada == 1) {
@@ -105,7 +100,6 @@ int main(void) {
 				}
 			} while (opcionSubMenuPrecios != 0);
 			break;
-
 		case 3:
 			ultimoKmCalculado = kilometrosIngresados;
 			ultimoPrecioAerolineasCalculado = precioVueloAerolineas;
@@ -113,31 +107,20 @@ int main(void) {
 
 			realizar_calculos:
 
-			utn_RealizarDescuento(precioVueloAerolineas, 0.10,
-					&precioTarjetaDebitoAerolineas);
-			utn_RealizarDescuento(precioVueloLatam, 0.10,
-					&precioTarjetaDebitoLatam);
-			utn_RealizarInteres(precioVueloAerolineas, 0.25,
-					&precioTarjetaCreditoAerolineas);
-			utn_RealizarInteres(precioVueloLatam, 0.25,
-					&precioTarjetaCreditoLatam);
-			utn_CalcularConversionValor(precioVueloAerolineas, 4606954.55,
-					&precioBitcoinAerolineas);
-			utn_CalcularConversionValor(precioVueloLatam, 4606954.55,
-					&precioBitcoinLatam);
-			utn_ValorPorUnidad(kilometrosIngresados, precioVueloAerolineas,
-					&precioPorKmAerolineas);
-			utn_ValorPorUnidad(kilometrosIngresados, precioVueloLatam,
-					&precioPorKmLatam);
-			utn_ObtenerDiferenciaEntreValores(precioVueloAerolineas,
-					precioVueloLatam, &diferenciaLatamAerolineas);
+			utn_RealizarDescuento(precioVueloAerolineas, 0.10, &precioTarjetaDebitoAerolineas);
+			utn_RealizarDescuento(precioVueloLatam, 0.10, &precioTarjetaDebitoLatam);
+			utn_RealizarInteres(precioVueloAerolineas, 0.25, &precioTarjetaCreditoAerolineas);
+			utn_RealizarInteres(precioVueloLatam, 0.25, &precioTarjetaCreditoLatam);
+			utn_CalcularConversionValor(precioVueloAerolineas, 4606954.55, &precioBitcoinAerolineas);
+			utn_CalcularConversionValor(precioVueloLatam, 4606954.55, &precioBitcoinLatam);
+			utn_ValorPorUnidad(kilometrosIngresados, precioVueloAerolineas, &precioPorKmAerolineas);
+			utn_ValorPorUnidad(kilometrosIngresados, precioVueloLatam, &precioPorKmLatam);
+			utn_ObtenerDiferenciaEntreValores(precioVueloAerolineas, precioVueloLatam, &diferenciaLatamAerolineas);
 
 			if (opcionMenuPrincipal == 5) {
 				goto imprimir_calculos;
 			}
-
 			break;
-
 		case 4:
 			if (flagIngresoKilometros == 0 || flagIngresoPrecioAerolineas == 0
 					|| flagIngresoPrecioLatam == 0) {
@@ -165,16 +148,14 @@ int main(void) {
 					flagIngresoCargaForzada = 0;
 				}
 				if (flagIngresoCargaForzada == 1) {
-					printf(
-							"Los últimos datos ingresados corresponden a la carga forzada, \n"
-									"por favor reingrese los Kilometros y Precios correspondientes.\n");
+					printf("Los últimos datos ingresados corresponden a la carga forzada, \n"
+							"por favor reingrese los Kilometros y Precios correspondientes.\n");
 				} else {
 					if (ultimoKmCalculado != kilometrosIngresados
 							|| ultimoPrecioAerolineasCalculado
 									!= precioVueloAerolineas
 							|| ultimoPrecioLatamCalculado != precioVueloLatam) {
-						printf(
-								"¡SE DEBEN CALCULAR LOS ÚLTIMOS DATOS INGRESADOS ANTES DE INFORMAR!\n");
+						printf("¡SE DEBEN CALCULAR LOS ÚLTIMOS DATOS INGRESADOS ANTES DE INFORMAR!\n");
 					} else {
 						do {
 							imprimir_calculos: fflush(stdin);
@@ -193,7 +174,6 @@ int main(void) {
 					}
 				}
 				break;
-
 				case 5:
 				do {
 					if (flagIngresoCargaForzada == 0) {
